@@ -83,7 +83,6 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     public void makeWalls(int offset) {
         int Y_COMMON = 600;
         Random rand = new Random();
-
         List<WallGenerator>  wallGeneratorList = new ArrayList<WallGenerator>();
 
         wallGeneratorList.add(() -> {
@@ -167,7 +166,9 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         Graphics2D gtd = (Graphics2D) g;
 
         player.draw(gtd);
-        for(Wall wall:walls) wall.draw(gtd);
+        for(Wall wall:walls) {
+            wall.draw(gtd);
+        }
 
         gtd.setColor(BLACK);
         gtd.drawRect(550,25,50,50);
@@ -203,6 +204,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     }
 
     public void mouseClicked(MouseEvent e) {
-        if(restartRect.contains(new Point(e.getPoint().x, e.getPoint().y - 27))) reset();
+        if(restartRect.contains(new Point(e.getPoint().x, e.getPoint().y - 27))) {
+            reset();
+        }
     }
 }

@@ -35,21 +35,33 @@ public class Player {
     public void set(){
         if(keyLeft && keyRight || !keyLeft && !keyRight) xspeed *= 0.8;
         else if(keyLeft && !keyRight) {
-            xspeed --;}
-        else if(keyRight && !keyLeft) {
-            xspeed ++;} //left or right
+            xspeed --;
+        }
+        else if(keyRight && !keyLeft) { //left or right
+            xspeed ++;
+        }
 
-        if(xspeed > 0 && xspeed < 0.75) xspeed =0;
-        if(xspeed < 0 && xspeed > -0.75) xspeed =0;
+        if(xspeed > 0 && xspeed < 0.75) {
+            xspeed =0;
+        }
+        if(xspeed < 0 && xspeed > -0.75) {
+            xspeed =0;
+        }
 
-        if(xspeed > 7 ) xspeed = 7;
-        if(xspeed < -7 ) xspeed = -7;
+        if(xspeed > 7 ) {
+            xspeed = 7;
+        }
+        if(xspeed < -7 ) {
+            xspeed = -7;
+        }
 
         if(keyUp){
 
             hitBox.y ++;
             for(Wall wall: panel.walls){
-                if(wall.hitBox.intersects(hitBox)) yspeed = -11;
+                if(wall.hitBox.intersects(hitBox)) {
+                    yspeed = -11;
+                }
             }
             hitBox.y --;
         }
@@ -59,7 +71,9 @@ public class Player {
         for(Wall wall: panel.walls){
             if(hitBox.intersects(wall.hitBox)){
                 hitBox.x -= xspeed;
-                while(!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
+                while(!wall.hitBox.intersects(hitBox)) {
+                    hitBox.x += Math.signum(xspeed);
+                }
                 hitBox.x -= Math.signum(xspeed);
                 panel.cameraX += x - hitBox.x;
                 xspeed = 0;
@@ -71,7 +85,9 @@ public class Player {
         for(Wall wall: panel.walls){
             if(hitBox.intersects(wall.hitBox)){
                 hitBox.y -= yspeed;
-                while(!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
+                while(!wall.hitBox.intersects(hitBox)) {
+                    hitBox.y += Math.signum(yspeed);
+                }
                 hitBox.y -= Math.signum(yspeed);
                 yspeed = 0;
                 y = hitBox.y;
@@ -85,7 +101,9 @@ public class Player {
         hitBox.y = y;
 
         //Death
-        if(y > 800) panel.reset();
+        if(y > 800) {
+            panel.reset();
+        }
     }
 
 
