@@ -20,7 +20,8 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
     Timer gameTimer;
 
     int BLOCK_SIZE = 50;
-    int cameraX, offset;
+    int cameraX;
+    int offset;
     Rectangle restartRect;
     Rectangle homeRect;
     Font buttonFont = new Font("Arial",Font.BOLD,30);
@@ -50,11 +51,13 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
                 List<Wall> wallsToDelete = new ArrayList<>();
 
-                for(int z = 0; z <walls.size(); z++){
-                    if(walls.get(z).x < -800) {
-                        walls.remove(z);
+                for (Wall wall : walls) {
+                    if (wall.x < -800) {
+                        wallsToDelete.add(wall);
                     }
                 }
+
+                walls.removeAll(wallsToDelete);
 
                 repaint();
             }
