@@ -15,7 +15,6 @@ public class Player {
     double yspeed;
 
     Rectangle hitBox;
-
     boolean keyLeft;
     boolean keyRight;
     boolean keyUp;

@@ -15,16 +15,18 @@ import static java.awt.Color.*;
 
 public class GamePanel extends javax.swing.JPanel implements ActionListener {
 
-    Player player;
-    List<Wall> walls = new ArrayList<>();
-    Timer gameTimer;
+    private Player player;
+    private List<Wall> walls = new ArrayList<>();
+    private Timer gameTimer;
 
-    int BLOCK_SIZE = 50;
-    int cameraX;
-    int offset;
-    Rectangle restartRect;
-    Rectangle homeRect;
-    Font buttonFont = new Font("Arial",Font.BOLD,30);
+    public static final int BLOCK_SIZE = 50;
+    private int cameraX;
+    private int offset;
+    private Rectangle restartRect;
+    private Rectangle homeRect;
+    private Font buttonFont = new Font("Arial",Font.BOLD,30);
+
+    private WallGeneratorOrganizer wallGeneratorOrganizer = new WallGeneratorOrganizer(walls);
 
     public GamePanel() {
 
@@ -75,93 +77,11 @@ public class GamePanel extends javax.swing.JPanel implements ActionListener {
         makeWalls(offset);
     }
 
-    private void addWall(Color c,int x, int y){
-        walls.add(new Wall(c,x,y,BLOCK_SIZE,BLOCK_SIZE));
-    }
-
-    private interface WallGenerator {
-        void generateWalls();
-    }
 
     public void makeWalls(int offset) {
-        int Y_COMMON = 600;
-        Random rand = new Random();
-        List<WallGenerator>  wallGeneratorList = new ArrayList<WallGenerator>();
+        wallGeneratorOrganizer.addWall(offset);
+    }
 
-        wallGeneratorList.add(() -> {
-            addWall(YELLOW,offset,Y_COMMON);
-            addWall(YELLOW,offset+2* BLOCK_SIZE,Y_COMMON);
-            addWall(YELLOW,offset+3* BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(YELLOW,offset+3* BLOCK_SIZE,Y_COMMON);
-            addWall(YELLOW,offset+3* BLOCK_SIZE,Y_COMMON + BLOCK_SIZE);
-            addWall(YELLOW,offset+4* BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(YELLOW,offset+8* BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(YELLOW,offset+8* BLOCK_SIZE,Y_COMMON);
-            addWall(YELLOW,offset+8* BLOCK_SIZE,Y_COMMON + BLOCK_SIZE);
-            addWall(YELLOW,offset+8* BLOCK_SIZE,Y_COMMON + 2 * BLOCK_SIZE);
-            addWall(YELLOW,offset+12* BLOCK_SIZE,Y_COMMON);
-            addWall(YELLOW,offset+12* BLOCK_SIZE,Y_COMMON + BLOCK_SIZE);
-            addWall(YELLOW,offset+13* BLOCK_SIZE,Y_COMMON);
-            addWall(YELLOW,offset+13* BLOCK_SIZE,Y_COMMON + BLOCK_SIZE);
-        });
-
-        wallGeneratorList.add(() -> {
-            addWall(RED,offset + 2 * BLOCK_SIZE,Y_COMMON);
-            addWall(RED,offset + BLOCK_SIZE,Y_COMMON);
-            addWall(RED,offset + BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(RED,offset + 2 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(RED,offset + 2 * BLOCK_SIZE,Y_COMMON + BLOCK_SIZE);
-            addWall(RED,offset + 2 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(RED,offset + 3 * BLOCK_SIZE,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(RED,offset + 4 * BLOCK_SIZE,Y_COMMON - 4 * BLOCK_SIZE);
-            addWall(RED,offset + 7 * BLOCK_SIZE,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(RED,offset + 10 * BLOCK_SIZE,Y_COMMON);
-            addWall(RED,offset + 11 * BLOCK_SIZE,Y_COMMON);
-            addWall(RED,offset + 11 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(RED,offset + 12 * BLOCK_SIZE,Y_COMMON);
-            addWall(RED,offset + 12 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(RED,offset + 13 * BLOCK_SIZE,Y_COMMON);
-            addWall(RED,offset + 13 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-        });
-
-        wallGeneratorList.add(() -> {
-            addWall(PINK,offset ,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(PINK,offset + 2 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(PINK,offset + 3 * BLOCK_SIZE,Y_COMMON);
-            addWall(PINK,offset + 4 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(PINK,offset + 5 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(PINK,offset + 6 * BLOCK_SIZE,Y_COMMON - 3 * BLOCK_SIZE);
-            addWall(PINK,offset + 8 * BLOCK_SIZE,Y_COMMON - 4 * BLOCK_SIZE);
-            addWall(PINK,offset + 9 * BLOCK_SIZE,Y_COMMON - 5 * BLOCK_SIZE);
-            addWall(PINK,offset + 12 * BLOCK_SIZE,Y_COMMON);
-            addWall(PINK,offset + 13 * BLOCK_SIZE,Y_COMMON);
-        });
-
-        wallGeneratorList.add(() -> {
-            addWall(ORANGE,offset ,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(ORANGE,offset + 2 * BLOCK_SIZE ,Y_COMMON);
-            addWall(ORANGE,offset + 2 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(ORANGE,offset + 3 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(ORANGE,offset + 4 * BLOCK_SIZE,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(ORANGE,offset + 9 * BLOCK_SIZE,Y_COMMON);
-            addWall(ORANGE,offset + 12 * BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(ORANGE,offset + 13 * BLOCK_SIZE,Y_COMMON);
-
-        });
-
-        wallGeneratorList.add(() -> {
-            addWall(BLUE,offset ,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(BLUE,offset + BLOCK_SIZE,Y_COMMON - BLOCK_SIZE);
-            addWall(BLUE,offset + 3 * BLOCK_SIZE,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(BLUE,offset + 4 * BLOCK_SIZE,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(BLUE,offset + 5 * BLOCK_SIZE,Y_COMMON - 2 * BLOCK_SIZE);
-            addWall(BLUE,offset + 9 * BLOCK_SIZE,Y_COMMON - 3 * BLOCK_SIZE);
-            addWall(BLUE,offset + 12 * BLOCK_SIZE,Y_COMMON);
-            addWall(BLUE,offset + 13 * BLOCK_SIZE,Y_COMMON);
-        });
-        int index = rand.nextInt(wallGeneratorList.size());
-        wallGeneratorList.get(index).generateWalls();
-        }
 
     public void paint(Graphics g){
 
