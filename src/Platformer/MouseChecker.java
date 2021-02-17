@@ -8,7 +8,7 @@ public class MouseChecker implements MouseListener {
 
     GamePanel panel;
 
-    public MouseChecker(GamePanel panel){
+    public MouseChecker(GamePanel panel) {
         this.panel = panel;
 
     }
